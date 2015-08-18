@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Bmp-plugins-cvs] bmp-htmlplaylist COPYING,NONE,1.1 Makefile,1.2,1.3 README,1.2,1.3 bmp-htmlplaylist.c,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/bmp-plugins-cvs/2004-December/index.html" >
+   <LINK REL="made" HREF="mailto:bmp-plugins-cvs%40lists.berlios.de?Subject=Re%3A%20%5BBmp-plugins-cvs%5D%20bmp-htmlplaylist%20COPYING%2CNONE%2C1.1%20Makefile%2C1.2%2C1.3%20README%2C1.2%2C1.3%20bmp-htmlplaylist.c%2C1.2%2C1.3&In-Reply-To=%3C200412061429.iB6ETmB08645%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Bmp-plugins-cvs] bmp-htmlplaylist COPYING,NONE,1.1 Makefile,1.2,1.3 README,1.2,1.3 bmp-htmlplaylist.c,1.2,1.3</H1>
+    <B>bogorodskiy</B> 
+    <A HREF="mailto:bmp-plugins-cvs%40lists.berlios.de?Subject=Re%3A%20%5BBmp-plugins-cvs%5D%20bmp-htmlplaylist%20COPYING%2CNONE%2C1.1%20Makefile%2C1.2%2C1.3%20README%2C1.2%2C1.3%20bmp-htmlplaylist.c%2C1.2%2C1.3&In-Reply-To=%3C200412061429.iB6ETmB08645%40bat.berlios.de%3E"
+       TITLE="[Bmp-plugins-cvs] bmp-htmlplaylist COPYING,NONE,1.1 Makefile,1.2,1.3 README,1.2,1.3 bmp-htmlplaylist.c,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Mon Dec  6 15:29:48 CET 2004</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/bmp-plugins/bmp-htmlplaylist
+In directory sheep:/tmp/cvs-serv3309
+
+Modified Files:
+	Makefile README bmp-htmlplaylist.c 
+Added Files:
+	COPYING 
+Log Message:
+- add MIT license
+- add initial xml support (may be snot stable)
+
+
+
+--- NEW FILE: COPYING ---
+Copyright (c) 2004 Roman Bogorodskiy (<A HREF="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">bogorodskiy at inbox.ru</A>)
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the &quot;Software&quot;),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in 
+all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL 
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+DEALINGS IN THE SOFTWARE.
+
+Index: Makefile
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/Makefile,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** Makefile	5 Dec 2004 06:21:57 -0000	1.2
+--- Makefile	6 Dec 2004 14:29:46 -0000	1.3
+***************
+*** 35,39 ****
+  
+  clean:
+! 	$(RM) $(PROJ) $(OBJS) *.core *.html
+  
+  install: $(PROJ)
+--- 35,39 ----
+  
+  clean:
+! 	$(RM) $(PROJ) $(OBJS) *.core *.html *.xml
+  
+  install: $(PROJ)
+
+Index: README
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/README,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** README	5 Dec 2004 06:21:57 -0000	1.2
+--- README	6 Dec 2004 14:29:46 -0000	1.3
+***************
+*** 1,14 ****
+  bmp-htmlplaylist
+  
+  bmp-htmlplaylist is a simple application which saves your
+! current beep-media-player playlist to html file. I've
+! thought about xml output, including css styles etc, but
+! really I'm not sure about it now. If you have some ideas, 
+! simply mail me: <A HREF="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">bogorodskiy at inbox.ru</A>
+  
+  Usage:
+  
+  $ bmp-htmlplaylist &gt; playlist.html
+  
+  
+  $Id$
+--- 1,30 ----
+  bmp-htmlplaylist
++ -------------------
+  
+  bmp-htmlplaylist is a simple application which saves your
+! current beep-media-player playlist to html or xml file.
+  
++ -------------------
+  Usage:
++ -------------------
+  
++ for html output:
+  $ bmp-htmlplaylist &gt; playlist.html
+  
++ for xml output:
++ $ bmp-htmlplaylist -x &gt; playlist.xml 
++ 
++ -------------------
++ known bugs:
++ -------------------
++ 
++ bmp-htmlplaylist does not filter html/xml special chars 
++ 
++ -------------------
++ contacts:
++ -------------------
++ 
++ authors' e-mail: bogorodskiy [at] inbox [dot] ru
++ maillist: <A HREF="https://lists.berlios.de/mailman/listinfo/bmp-plugins-users">https://lists.berlios.de/mailman/listinfo/bmp-plugins-users</A>
+  
+  $Id$
+
+Index: bmp-htmlplaylist.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/bmp-htmlplaylist.c,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** bmp-htmlplaylist.c	5 Dec 2004 06:19:53 -0000	1.2
+--- bmp-htmlplaylist.c	6 Dec 2004 14:29:46 -0000	1.3
+***************
+*** 1,3 ****
+--- 1,23 ----
+  /*
++  * Copyright (c) 2004 Roman Bogorodskiy (<A HREF="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">bogorodskiy at inbox.ru</A>)
++  * 
++  * Permission is hereby granted, free of charge, to any person obtaining a
++  * copy of this software and associated documentation files (the &quot;Software&quot;),
++  * to deal in the Software without restriction, including without limitation
++  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++  * and/or sell copies of the Software, and to permit persons to whom the 
++  * Software is furnished to do so, subject to the following conditions:
++  * 
++  * The above copyright notice and this permission notice shall be included in 
++  * all copies or substantial portions of the Software. 
++  * 
++  * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
++  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
++  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL 
++  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
++  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
++  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++  * DEALINGS IN THE SOFTWARE.
++  *
+   * $Id$
+   */
+***************
+*** 6,12 ****
+--- 26,34 ----
+  #include &lt;stdlib.h&gt;
+  #include &lt;unistd.h&gt;
++ #include &lt;string.h&gt;
+  
+  #include &lt;bmp/beepctrl.h&gt;
+  
++ short int xml_output;
+  static void html_header(void);
+  static char *format_time(int time);
+***************
+*** 14,21 ****
+  static void html_header()
+  {
+! 	(void)printf(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 3.2 Final//EN\&quot;&gt;\n&quot;);
+! 	(void)printf(&quot;&lt;html&gt;\n\t&lt;head&gt;\n&quot;);
+! 	(void)printf(&quot;\t\t&lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=utf-8\&quot;&gt;\n&quot;);
+! 	(void)printf(&quot;\t&lt;/head&gt;\n&lt;body&gt;\n&quot;);
+  }
+  
+--- 36,48 ----
+  static void html_header()
+  {
+! 	if (!xml_output) {
+! 		(void)printf(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 3.2 Final//EN\&quot;&gt;\n&quot;);
+! 		(void)printf(&quot;&lt;html&gt;\n\t&lt;head&gt;\n&quot;);
+! 		(void)printf(&quot;\t\t&lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=utf-8\&quot;&gt;\n&quot;);
+! 		(void)printf(&quot;\t&lt;/head&gt;\n&lt;body&gt;\n&quot;);
+! 	} else {
+! 		(void)printf(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;\n\n&quot;);
+! 		(void)printf(&quot;&lt;playlist&gt;\n&quot;);
+! 	}
+  }
+  
+***************
+*** 78,81 ****
+--- 105,115 ----
+  	/* XXX should ask user about that */
+  	session = 0;
++ 
++ 	if (argc &gt; 1) {
++ 		if (strcmp(argv[1], &quot;-x&quot;) == 0) 
++ 			xml_output = 1;
++ 		else
++ 			xml_output = 0;
++ 	}
+  	
+  	length = xmms_remote_get_playlist_length(session);
+***************
+*** 95,106 ****
+  		time = xmms_remote_get_playlist_time(session, i)/1000;
+  		time_total += time;
+! 		
+! 		(void)printf(&quot;\t%s (%s)&lt;br /&gt;\n&quot;, song, format_time(time));
+  	}
+  
+! 	(void)printf(&quot;\n\t&lt;hr size=1 width=100%%&gt;&lt;br /&gt;\n&quot;);
+! 	(void)printf(&quot;\n\t&lt;b&gt;Total:&lt;/b&gt;&lt;br /&gt;\n\tTracks: &lt;b&gt;%d&lt;/b&gt;&lt;br /&gt;\n&quot;, length);
+! 	(void)printf(&quot;\tTime: %s&lt;br /&gt;\n&quot;, format_time(time_total));
+! 	(void)printf(&quot;\n\t&lt;/body&gt;\n&lt;/html&gt;\n\n&quot;);
+  
+  	return 0;
+--- 129,149 ----
+  		time = xmms_remote_get_playlist_time(session, i)/1000;
+  		time_total += time;
+! 	
+! 		if (!xml_output) {	
+! 			(void)printf(&quot;\t%s (%s)&lt;br /&gt;\n&quot;, song, format_time(time));
+! 		} else {
+! 			(void)printf(&quot;\t&lt;song&gt;\n\t\t&lt;title&gt;%s&lt;/title&gt;\n\t\t&lt;time&gt;%s&lt;/time&gt;\n\t&lt;/song&gt;\n&quot;,
+! 				     song, format_time(time));
+! 		}
+  	}
+  
+! 	if (!xml_output) {
+! 		(void)printf(&quot;\n\t&lt;hr size=1 width=100%%&gt;&lt;br /&gt;\n&quot;);
+! 		(void)printf(&quot;\n\t&lt;b&gt;Total:&lt;/b&gt;&lt;br /&gt;\n\tTracks: &lt;b&gt;%d&lt;/b&gt;&lt;br /&gt;\n&quot;, length);
+! 		(void)printf(&quot;\tTime: %s&lt;br /&gt;\n&quot;, format_time(time_total));
+! 		(void)printf(&quot;\n\t&lt;/body&gt;\n&lt;/html&gt;\n\n&quot;);
+! 	} else {
+! 		(void)printf(&quot;&lt;/playlist&gt;\n&quot;);
+! 	}
+  
+  	return 0;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">More information about the Bmp-plugins-cvs
+mailing list</a><br>
+</body></html>

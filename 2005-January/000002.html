@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Bmp-plugins-cvs] bmp-htmlplaylist COPYING,1.1,1.2 bmp-htmlplaylist.c,1.4,1.5
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/bmp-plugins-cvs/2005-January/index.html" >
+   <LINK REL="made" HREF="mailto:bmp-plugins-cvs%40lists.berlios.de?Subject=Re%3A%20%5BBmp-plugins-cvs%5D%20bmp-htmlplaylist%20COPYING%2C1.1%2C1.2%20bmp-htmlplaylist.c%2C1.4%2C1.5&In-Reply-To=%3C200501031038.j03AcMn24773%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000001.html">
+   <LINK REL="Next"  HREF="000003.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Bmp-plugins-cvs] bmp-htmlplaylist COPYING,1.1,1.2 bmp-htmlplaylist.c,1.4,1.5</H1>
+    <B>bogorodskiy</B> 
+    <A HREF="mailto:bmp-plugins-cvs%40lists.berlios.de?Subject=Re%3A%20%5BBmp-plugins-cvs%5D%20bmp-htmlplaylist%20COPYING%2C1.1%2C1.2%20bmp-htmlplaylist.c%2C1.4%2C1.5&In-Reply-To=%3C200501031038.j03AcMn24773%40bat.berlios.de%3E"
+       TITLE="[Bmp-plugins-cvs] bmp-htmlplaylist COPYING,1.1,1.2 bmp-htmlplaylist.c,1.4,1.5">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Mon Jan  3 11:38:23 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000001.html">[Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.1.1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000003.html">[Bmp-plugins-cvs] bmp-htmlplaylist bmp-htmlplaylist.c,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/bmp-plugins/bmp-htmlplaylist
+In directory sheep:/tmp/cvs-serv21971
+
+Modified Files:
+	COPYING bmp-htmlplaylist.c 
+Log Message:
+Give some more info if playlist length is zero or BMP is not running.
+
+
+
+Index: COPYING
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/COPYING,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** COPYING	6 Dec 2004 14:29:46 -0000	1.1
+--- COPYING	3 Jan 2005 10:38:20 -0000	1.2
+***************
+*** 1,3 ****
+! Copyright (c) 2004 Roman Bogorodskiy (<A HREF="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">bogorodskiy at inbox.ru</A>)
+  
+  Permission is hereby granted, free of charge, to any person obtaining a
+--- 1,3 ----
+! Copyright (c) 2004, 2005 Roman Bogorodskiy (<A HREF="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">bogorodskiy at inbox.ru</A>)
+  
+  Permission is hereby granted, free of charge, to any person obtaining a
+
+Index: bmp-htmlplaylist.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/bmp-htmlplaylist.c,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** bmp-htmlplaylist.c	19 Dec 2004 14:18:25 -0000	1.4
+--- bmp-htmlplaylist.c	3 Jan 2005 10:38:20 -0000	1.5
+***************
+*** 1,4 ****
+  /*
+!  * Copyright (c) 2004 Roman Bogorodskiy (<A HREF="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">bogorodskiy at inbox.ru</A>)
+   * 
+   * Permission is hereby granted, free of charge, to any person obtaining a
+--- 1,4 ----
+  /*
+!  * Copyright (c) 2004, 2005 Roman Bogorodskiy (<A HREF="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">bogorodskiy at inbox.ru</A>)
+   * 
+   * Permission is hereby granted, free of charge, to any person obtaining a
+***************
+*** 169,174 ****
+  	length = xmms_remote_get_playlist_length(session);
+  	
+! 	if (length == 0)
+! 		return 0;
+  
+  	html_header();
+--- 169,176 ----
+  	length = xmms_remote_get_playlist_length(session);
+  	
+! 	if (length == 0) {
+! 		printf(&quot;Session %d: BMP is not running or playlist is empty\n&quot;);
+! 		return 1;
+! 	}
+  
+  	html_header();
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000001.html">[Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.1.1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000003.html">[Bmp-plugins-cvs] bmp-htmlplaylist bmp-htmlplaylist.c,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">More information about the Bmp-plugins-cvs
+mailing list</a><br>
+</body></html>

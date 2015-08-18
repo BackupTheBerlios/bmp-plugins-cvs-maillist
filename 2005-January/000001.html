@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.1.1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/bmp-plugins-cvs/2005-January/index.html" >
+   <LINK REL="made" HREF="mailto:bmp-plugins-cvs%40lists.berlios.de?Subject=Re%3A%20%5BBmp-plugins-cvs%5D%20bmp-wma/src%20bmp-wma.c%2C1.1.1.1%2C1.2&In-Reply-To=%3C200501011343.j01Dhhn29911%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.1.1.1,1.2</H1>
+    <B>bogorodskiy</B> 
+    <A HREF="mailto:bmp-plugins-cvs%40lists.berlios.de?Subject=Re%3A%20%5BBmp-plugins-cvs%5D%20bmp-wma/src%20bmp-wma.c%2C1.1.1.1%2C1.2&In-Reply-To=%3C200501011343.j01Dhhn29911%40bat.berlios.de%3E"
+       TITLE="[Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.1.1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Sat Jan  1 14:43:43 CET 2005</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000002.html">[Bmp-plugins-cvs] bmp-htmlplaylist COPYING,1.1,1.2 bmp-htmlplaylist.c,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/bmp-plugins/bmp-wma/src
+In directory sheep:/tmp/cvs-serv6692
+
+Modified Files:
+	bmp-wma.c 
+Log Message:
+One memory leak caught.
+
+
+
+Index: bmp-wma.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/src/bmp-wma.c,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1.1.1 -r1.2
+*** bmp-wma.c	19 Dec 2004 12:48:13 -0000	1.1.1.1
+--- bmp-wma.c	1 Jan 2005 13:43:40 -0000	1.2
+***************
+*** 119,123 ****
+  
+      	if (about_dialog) 
+! 		return;
+  
+  	(void)g_snprintf(title, 80, &quot;About %s&quot;, NAME);
+--- 119,123 ----
+  
+      	if (about_dialog) 
+! 		goto fail;
+  
+  	(void)g_snprintf(title, 80, &quot;About %s&quot;, NAME);
+***************
+*** 149,152 ****
+--- 149,153 ----
+      	gtk_widget_grab_focus(close_button);
+  
++ fail:
+  	g_free(title);
+      	g_free(message);
+***************
+*** 256,260 ****
+      	XMMS_NEW_TITLEINPUT(input);
+      
+!     	if((in-&gt;title[0] != '\0') || (in-&gt;author[0] != '\0') || (in-&gt;album[0] != '\0') ||
+         		(in-&gt;comment[0] != '\0') || (in-&gt;genre[0] != '\0') || (in-&gt;year != 0) || (in-&gt;track != 0))
+      	{	
+--- 257,261 ----
+      	XMMS_NEW_TITLEINPUT(input);
+      
+!     	if ((in-&gt;title[0] != '\0') || (in-&gt;author[0] != '\0') || (in-&gt;album[0] != '\0') ||
+         		(in-&gt;comment[0] != '\0') || (in-&gt;genre[0] != '\0') || (in-&gt;year != 0) || (in-&gt;track != 0))
+      	{	
+***************
+*** 318,322 ****
+      	fifo_write(&amp;f, wma_outbuf, out_size, &amp;f.wptr);
+      
+! 	while(!fifo_read(&amp;f, wma_s_outbuf, wma_st_buff, &amp;f.rptr) &amp;&amp; wma_decode) {
+          	if (wma_eq_on)
+              		sst_buff = iir((gpointer)&amp;wma_s_outbuf, wma_st_buff);
+--- 319,323 ----
+      	fifo_write(&amp;f, wma_outbuf, out_size, &amp;f.wptr);
+      
+! 	while (!fifo_read(&amp;f, wma_s_outbuf, wma_st_buff, &amp;f.rptr) &amp;&amp; wma_decode) {
+          	if (wma_eq_on)
+              		sst_buff = iir((gpointer)&amp;wma_s_outbuf, wma_st_buff);
+***************
+*** 458,462 ****
+  	wma_decode = 0;
+      	
+! 	if(wma_pause)
+  		wma_do_pause(0);
+      	
+--- 459,463 ----
+  	wma_decode = 0;
+      	
+! 	if (wma_pause)
+  		wma_do_pause(0);
+      	
+***************
+*** 530,534 ****
+  	}
+  
+! 	if(av_open_input_file(&amp;in, filename, NULL, 0, NULL) &lt; 0) 
+  		return;
+  
+--- 531,535 ----
+  	}
+  
+! 	if (av_open_input_file(&amp;in, filename, NULL, 0, NULL) &lt; 0) 
+  		return;
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000002.html">[Bmp-plugins-cvs] bmp-htmlplaylist COPYING,1.1,1.2 bmp-htmlplaylist.c,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">More information about the Bmp-plugins-cvs
+mailing list</a><br>
+</body></html>

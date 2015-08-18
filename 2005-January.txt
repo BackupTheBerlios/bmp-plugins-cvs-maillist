@@ -1,0 +1,665 @@
+From nobody at sheep.berlios.de  Sat Jan  1 14:43:43 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Sat, 1 Jan 2005 14:43:43 +0100
+Subject: [Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.1.1.1,1.2
+Message-ID: <200501011343.j01Dhhn29911@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-wma/src
+In directory sheep:/tmp/cvs-serv6692
+
+Modified Files:
+	bmp-wma.c 
+Log Message:
+One memory leak caught.
+
+
+
+Index: bmp-wma.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/src/bmp-wma.c,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1.1.1 -r1.2
+*** bmp-wma.c	19 Dec 2004 12:48:13 -0000	1.1.1.1
+--- bmp-wma.c	1 Jan 2005 13:43:40 -0000	1.2
+***************
+*** 119,123 ****
+  
+      	if (about_dialog) 
+! 		return;
+  
+  	(void)g_snprintf(title, 80, "About %s", NAME);
+--- 119,123 ----
+  
+      	if (about_dialog) 
+! 		goto fail;
+  
+  	(void)g_snprintf(title, 80, "About %s", NAME);
+***************
+*** 149,152 ****
+--- 149,153 ----
+      	gtk_widget_grab_focus(close_button);
+  
++ fail:
+  	g_free(title);
+      	g_free(message);
+***************
+*** 256,260 ****
+      	XMMS_NEW_TITLEINPUT(input);
+      
+!     	if((in->title[0] != '\0') || (in->author[0] != '\0') || (in->album[0] != '\0') ||
+         		(in->comment[0] != '\0') || (in->genre[0] != '\0') || (in->year != 0) || (in->track != 0))
+      	{	
+--- 257,261 ----
+      	XMMS_NEW_TITLEINPUT(input);
+      
+!     	if ((in->title[0] != '\0') || (in->author[0] != '\0') || (in->album[0] != '\0') ||
+         		(in->comment[0] != '\0') || (in->genre[0] != '\0') || (in->year != 0) || (in->track != 0))
+      	{	
+***************
+*** 318,322 ****
+      	fifo_write(&f, wma_outbuf, out_size, &f.wptr);
+      
+! 	while(!fifo_read(&f, wma_s_outbuf, wma_st_buff, &f.rptr) && wma_decode) {
+          	if (wma_eq_on)
+              		sst_buff = iir((gpointer)&wma_s_outbuf, wma_st_buff);
+--- 319,323 ----
+      	fifo_write(&f, wma_outbuf, out_size, &f.wptr);
+      
+! 	while (!fifo_read(&f, wma_s_outbuf, wma_st_buff, &f.rptr) && wma_decode) {
+          	if (wma_eq_on)
+              		sst_buff = iir((gpointer)&wma_s_outbuf, wma_st_buff);
+***************
+*** 458,462 ****
+  	wma_decode = 0;
+      	
+! 	if(wma_pause)
+  		wma_do_pause(0);
+      	
+--- 459,463 ----
+  	wma_decode = 0;
+      	
+! 	if (wma_pause)
+  		wma_do_pause(0);
+      	
+***************
+*** 530,534 ****
+  	}
+  
+! 	if(av_open_input_file(&in, filename, NULL, 0, NULL) < 0) 
+  		return;
+  
+--- 531,535 ----
+  	}
+  
+! 	if (av_open_input_file(&in, filename, NULL, 0, NULL) < 0) 
+  		return;
+  
+
+
+
+From nobody at sheep.berlios.de  Mon Jan  3 11:38:23 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Mon, 3 Jan 2005 11:38:23 +0100
+Subject: [Bmp-plugins-cvs] bmp-htmlplaylist COPYING,1.1,1.2 bmp-htmlplaylist.c,1.4,1.5
+Message-ID: <200501031038.j03AcMn24773@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-htmlplaylist
+In directory sheep:/tmp/cvs-serv21971
+
+Modified Files:
+	COPYING bmp-htmlplaylist.c 
+Log Message:
+Give some more info if playlist length is zero or BMP is not running.
+
+
+
+Index: COPYING
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/COPYING,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** COPYING	6 Dec 2004 14:29:46 -0000	1.1
+--- COPYING	3 Jan 2005 10:38:20 -0000	1.2
+***************
+*** 1,3 ****
+! Copyright (c) 2004 Roman Bogorodskiy (bogorodskiy at inbox.ru)
+  
+  Permission is hereby granted, free of charge, to any person obtaining a
+--- 1,3 ----
+! Copyright (c) 2004, 2005 Roman Bogorodskiy (bogorodskiy at inbox.ru)
+  
+  Permission is hereby granted, free of charge, to any person obtaining a
+
+Index: bmp-htmlplaylist.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/bmp-htmlplaylist.c,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** bmp-htmlplaylist.c	19 Dec 2004 14:18:25 -0000	1.4
+--- bmp-htmlplaylist.c	3 Jan 2005 10:38:20 -0000	1.5
+***************
+*** 1,4 ****
+  /*
+!  * Copyright (c) 2004 Roman Bogorodskiy (bogorodskiy at inbox.ru)
+   * 
+   * Permission is hereby granted, free of charge, to any person obtaining a
+--- 1,4 ----
+  /*
+!  * Copyright (c) 2004, 2005 Roman Bogorodskiy (bogorodskiy at inbox.ru)
+   * 
+   * Permission is hereby granted, free of charge, to any person obtaining a
+***************
+*** 169,174 ****
+  	length = xmms_remote_get_playlist_length(session);
+  	
+! 	if (length == 0)
+! 		return 0;
+  
+  	html_header();
+--- 169,176 ----
+  	length = xmms_remote_get_playlist_length(session);
+  	
+! 	if (length == 0) {
+! 		printf("Session %d: BMP is not running or playlist is empty\n");
+! 		return 1;
+! 	}
+  
+  	html_header();
+
+
+
+From nobody at sheep.berlios.de  Mon Jan  3 11:40:46 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Mon, 3 Jan 2005 11:40:46 +0100
+Subject: [Bmp-plugins-cvs] bmp-htmlplaylist bmp-htmlplaylist.c,1.5,1.6
+Message-ID: <200501031040.j03Aekn24875@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-htmlplaylist
+In directory sheep:/tmp/cvs-serv22231
+
+Modified Files:
+	bmp-htmlplaylist.c 
+Log Message:
+Fix small error made during previous commit.
+
+
+
+Index: bmp-htmlplaylist.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/bmp-htmlplaylist.c,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** bmp-htmlplaylist.c	3 Jan 2005 10:38:20 -0000	1.5
+--- bmp-htmlplaylist.c	3 Jan 2005 10:40:43 -0000	1.6
+***************
+*** 170,174 ****
+  	
+  	if (length == 0) {
+! 		printf("Session %d: BMP is not running or playlist is empty\n");
+  		return 1;
+  	}
+--- 170,174 ----
+  	
+  	if (length == 0) {
+! 		printf("Session %d: BMP is not running or playlist is empty\n", session);
+  		return 1;
+  	}
+
+
+
+From nobody at sheep.berlios.de  Mon Jan  3 11:53:24 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Mon, 3 Jan 2005 11:53:24 +0100
+Subject: [Bmp-plugins-cvs] bmp-htmlplaylist COPYING,1.2,1.3 Makefile,1.4,1.5 README,1.3,1.4 bmp-htmlplaylist.c,1.6,1.7
+Message-ID: <200501031053.j03ArOn25399@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-htmlplaylist
+In directory sheep:/tmp/cvs-serv23776
+
+Modified Files:
+	COPYING Makefile README bmp-htmlplaylist.c 
+Log Message:
+Forced commit to test syncmail.
+
+
+
+Index: COPYING
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/COPYING,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -u -d -r1.2 -r1.3
+
+Index: Makefile
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/Makefile,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -u -d -r1.4 -r1.5
+
+Index: README
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/README,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -u -d -r1.3 -r1.4
+
+Index: bmp-htmlplaylist.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/bmp-htmlplaylist.c,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -u -d -r1.6 -r1.7
+
+
+
+From nobody at sheep.berlios.de  Mon Jan  3 11:55:36 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Mon, 3 Jan 2005 11:55:36 +0100
+Subject: [Bmp-plugins-cvs] bmp-htmlplaylist bmp-htmlplaylist.c,1.7,1.8
+Message-ID: <200501031055.j03Atan25487@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-htmlplaylist
+In directory sheep:/tmp/cvs-serv24030
+
+Modified Files:
+	bmp-htmlplaylist.c 
+Log Message:
+Test again, sorry.
+
+
+
+Index: bmp-htmlplaylist.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/bmp-htmlplaylist.c,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -u -d -r1.7 -r1.8
+--- bmp-htmlplaylist.c	3 Jan 2005 10:53:21 -0000	1.7
++++ bmp-htmlplaylist.c	3 Jan 2005 10:55:34 -0000	1.8
+@@ -122,6 +122,7 @@
+ 	else
+ 		(void)snprintf(string, 255, "%d days %d hours %d minutes %d seconds", 
+ 			       days, hours, minutes, seconds);
++
+ 	return string;
+ }
+ 
+
+
+
+From nobody at sheep.berlios.de  Tue Jan  4 14:45:06 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Tue, 4 Jan 2005 14:45:06 +0100
+Subject: [Bmp-plugins-cvs] bmp-wma/src/wma123 playlist.c,1.1.1.1,1.2
+Message-ID: <200501041345.j04Dj6n09511@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-wma/src/wma123
+In directory sheep:/tmp/cvs-serv20604
+
+Modified Files:
+	playlist.c 
+Log Message:
+Move strcpy -> strncpy, strcat -> strncat to avoid scary BoFs.
+
+
+
+Index: playlist.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/src/wma123/playlist.c,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2
+diff -u -d -r1.1.1.1 -r1.2
+--- playlist.c	19 Dec 2004 12:50:37 -0000	1.1.1.1
++++ playlist.c	4 Jan 2005 13:45:04 -0000	1.2
+@@ -138,9 +138,9 @@
+ 	&& strcmp(entry->d_name, "..") != 0  ) {
+ 
+       /* Build the new full pathname */
+-      strcpy(nextfile, dirname);
+-      strcat(nextfile, "/");
+-      strcat(nextfile, entry->d_name);
++      strncpy(nextfile, dirname, NAME_MAX);
++      strncat(nextfile, "/", (sizeof(nextfile) - strlen(nextfile) - 1));
++      strncat(nextfile, entry->d_name, (sizeof(nextfile) - strlen(nextfile) - 1));
+       
+       if (stat(nextfile, &stat_buf) == 0) {
+ 	
+
+
+
+From nobody at sheep.berlios.de  Wed Jan  5 08:44:41 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Wed, 5 Jan 2005 08:44:41 +0100
+Subject: [Bmp-plugins-cvs] bmp-htmlplaylist bmp-htmlplaylist.c,1.8,1.9
+Message-ID: <200501050744.j057ifn06735@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-htmlplaylist
+In directory sheep:/tmp/cvs-serv29498
+
+Modified Files:
+	bmp-htmlplaylist.c 
+Log Message:
+Forced commit - test CIA
+
+
+
+Index: bmp-htmlplaylist.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-htmlplaylist/bmp-htmlplaylist.c,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -u -d -r1.8 -r1.9
+
+
+
+From nobody at sheep.berlios.de  Thu Jan 13 19:41:37 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Thu, 13 Jan 2005 19:41:37 +0100
+Subject: [Bmp-plugins-cvs] bmp-wma configure.in,1.1.1.1,1.2
+Message-ID: <200501131841.j0DIfbE03726@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-wma
+In directory sheep:/tmp/cvs-serv20827
+
+Modified Files:
+	configure.in 
+Log Message:
+Minor configure.in cleanups
+
+
+
+Index: configure.in
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/configure.in,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2
+diff -u -d -r1.1.1.1 -r1.2
+--- configure.in	19 Dec 2004 12:47:08 -0000	1.1.1.1
++++ configure.in	13 Jan 2005 18:41:34 -0000	1.2
+@@ -11,8 +11,6 @@
+ AC_PROG_RANLIB
+ AC_PROG_LIBTOOL
+ 
+-test x$prefix = "xNONE" && prefix="$ac_default_prefix"
+-
+ # Checks for libraries.
+ PKG_CHECK_MODULES(BEEP, [bmp >= 0.9.7], 
+     [],
+@@ -106,10 +104,7 @@
+ AC_MSG_RESULT([])
+ AC_MSG_RESULT([ $PACKAGE version $VERSION configured successfully.])
+ AC_MSG_RESULT([])
+-AC_MSG_RESULT([Using '$prefix' for installation.])
+-AC_MSG_RESULT([Using '$CC' for C compiler.])
+-AC_MSG_RESULT([Building with '$CFLAGS' for C compiler flags.])
+-AC_MSG_RESULT([Building with '$LIBS' for linker flags.])
++AC_MSG_RESULT([Using '$BEEP_INPUT_PLUGIN_DIR' for installation.])
+ AC_MSG_RESULT([])
+ 
+ AC_OUTPUT
+
+
+
+From nobody at sheep.berlios.de  Mon Jan 17 14:22:44 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Mon, 17 Jan 2005 14:22:44 +0100
+Subject: [Bmp-plugins-cvs] bmp-wma ChangeLog,1.2,1.3 NEWS,1.1.1.1,1.2 TODO,1.1,1.2
+Message-ID: <200501171322.j0HDMiE10127@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-wma
+In directory sheep:/tmp/cvs-serv19266
+
+Modified Files:
+	ChangeLog NEWS TODO 
+Log Message:
+Minor changes before 0.1.2 release.
+
+
+
+Index: ChangeLog
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/ChangeLog,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -u -d -r1.2 -r1.3
+--- ChangeLog	19 Dec 2004 15:02:03 -0000	1.2
++++ ChangeLog	17 Jan 2005 13:22:41 -0000	1.3
+@@ -1,11 +1,9 @@
+---- bmp-wma version 0.1.3 (not released yet)
++--- bmp-wma version 0.1.2
+ 	- Rise MAX_CODED_SUPERFRAME_SIZE for files with high bitrate (merged
+ 	from xmms-wma)
+-
+---- bmp-wma version 0.1.2
+ 	- use VFS from libbmp for file operations
+ 	- switch from printf() to g_printf() and so on
+-	- Fix some compiler warnings, make code cleaner
++	- Fix some memory leaks, compiler warnings, make code cleaner
+ 
+ --- bmp-wma version 0.1.1
+ 	- patch by Chong Kai Xiong <descender%phreaker.net> 
+
+Index: NEWS
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/NEWS,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2
+diff -u -d -r1.1.1.1 -r1.2
+--- NEWS	19 Dec 2004 12:47:22 -0000	1.1.1.1
++++ NEWS	17 Jan 2005 13:22:41 -0000	1.2
+@@ -1 +1 @@
+-README AUTHORS ChangeLog
++
+
+Index: TODO
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/TODO,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -u -d -r1.1 -r1.2
+--- TODO	19 Dec 2004 15:02:03 -0000	1.1
++++ TODO	17 Jan 2005 13:22:41 -0000	1.2
+@@ -1,2 +1,3 @@
+ - fix memory leaks in bmp-wma.c
+ - fix some strange problem with threads on some linux systems
++- interface improvements
+
+
+
+From nobody at sheep.berlios.de  Mon Jan 17 14:22:44 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Mon, 17 Jan 2005 14:22:44 +0100
+Subject: [Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.2,1.3
+Message-ID: <200501171322.j0HDMiE10131@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-wma/src
+In directory sheep:/tmp/cvs-serv19266/src
+
+Modified Files:
+	bmp-wma.c 
+Log Message:
+Minor changes before 0.1.2 release.
+
+
+
+Index: bmp-wma.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/src/bmp-wma.c,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -u -d -r1.2 -r1.3
+--- bmp-wma.c	1 Jan 2005 13:43:40 -0000	1.2
++++ bmp-wma.c	17 Jan 2005 13:22:42 -0000	1.3
+@@ -211,17 +211,15 @@
+ 
+     	wma_eq_on = q_on;
+     
+-	if(wma_eq_on)
+-    	{
++	if (wma_eq_on) {
+ 		q_preamp = q_preamp/1.6;
+-        	for(chn = 0; chn < c->channels; chn++)
++        	for (chn = 0; chn < c->channels; chn++)
+             		preamp[chn] = 1.0 + 0.0932471 * q_preamp + 0.00279033 * q_preamp * q_preamp;
+         
+-		for(index = 0; index < 10; index++)
+-        	{
++		for (index = 0; index < 10; index++) {
+             		value = q_bands[index]/1.2;
+             	
+-			for(chn = 0; chn < c->channels; chn++)
++			for (chn = 0; chn < c->channels; chn++)
+                 		gain[index][chn] = 0.03 * value + 0.000999999 * value * value;
+         	}
+     	}
+
+
+
+From nobody at sheep.berlios.de  Sat Jan 22 06:42:39 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Sat, 22 Jan 2005 06:42:39 +0100
+Subject: [Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.3,1.4
+Message-ID: <200501220542.j0M5gdN29164@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-wma/src
+In directory sheep:/tmp/cvs-serv5130/src
+
+Modified Files:
+	bmp-wma.c 
+Log Message:
+rewrite the "about" dialog
+
+
+
+Index: bmp-wma.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/src/bmp-wma.c,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -u -d -r1.3 -r1.4
+--- bmp-wma.c	17 Jan 2005 13:22:42 -0000	1.3
++++ bmp-wma.c	22 Jan 2005 05:42:36 -0000	1.4
+@@ -14,6 +14,9 @@
+  *  You should have received a copy of the GNU General Public License
+  *  along with this program; if not, write to the Free Software
+  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ *
++ * $Id$
++ * 
+  */
+ 
+ #ifdef HAVE_MALLOC_H
+@@ -31,7 +34,7 @@
+ #include <bmp/vfs.h>
+ 
+ #ifdef HAVE_CONFIG_H
+-#include "config.h"
++#	include "config.h"
+ #endif
+ 
+ #include "avcodec.h"
+@@ -111,46 +114,25 @@
+ 
+ static void wma_about(void) 
+ {
+-	GtkWidget *close_button;
+-	GtkWidget *label;
+-	
+-	char *title = (char *)g_malloc(80);
+-    	char *message = (char *)g_malloc(256);
+-
+-    	if (about_dialog) 
+-		goto fail;
+-
+-	(void)g_snprintf(title, 80, "About %s", NAME);
+-	(void)g_snprintf(message, 256, "%s %s\n\n%s", NAME, VERSION, ABOUT_TXT);
+-	
+-    	about_dialog = gtk_dialog_new();
++	static GtkWidget *aboutbox;
++	gchar *text;
+     
++	if (aboutbox)
++ 		return;
+ 	
+-	gtk_signal_connect(GTK_OBJECT(about_dialog), "destroy",
+-                        GTK_SIGNAL_FUNC(gtk_widget_destroyed), &about_dialog);
+-    
+-	gtk_window_set_title(GTK_WINDOW(about_dialog), title);
+-    	gtk_window_set_policy(GTK_WINDOW(about_dialog), FALSE, FALSE, FALSE);
+-    	gtk_container_border_width(GTK_CONTAINER(about_dialog), 5);
+-    	label = gtk_label_new(message);
+-    	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(about_dialog)->vbox), label, TRUE, TRUE, 0);
+-    	gtk_widget_show(label);
+-
+-    	close_button = gtk_button_new_with_label(" Close ");
+-    
+-	gtk_signal_connect_object(GTK_OBJECT(close_button), "clicked",
+-	                        GTK_SIGNAL_FUNC(gtk_widget_destroy),
+-    	                        GTK_OBJECT(about_dialog));
+-    	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(about_dialog)->action_area), close_button,
+-                     		FALSE, FALSE, 0);
+-
+-    	gtk_widget_show(close_button);
+-    	gtk_widget_show(about_dialog);
+-    	gtk_widget_grab_focus(close_button);
++	text = g_strdup_printf("BMP-WMA Plugin %s\n\n"
++        		"Created by Roman Bogorodskiy <bogorodskiy at inbox.ru>\n"
++		       	"Based on xmms-wma written by Mokrushin I.V. aka McMCC <mcmcc at mail.ru>\n"
++			"See AUTHORS for details\n",
++                        VERSION);
+ 
+-fail:
+-	g_free(title);
+-    	g_free(message);
++	aboutbox = xmms_show_message("About BMP-WMA",
++                             	text,
++                             	"OK", FALSE, NULL, NULL);
++             
++	g_free(text);
++	gtk_signal_connect(GTK_OBJECT(aboutbox), "destroy",
++                           GTK_SIGNAL_FUNC(gtk_widget_destroyed), &aboutbox);
+ }
+ 
+ static void wma_init(void)
+
+
+
+From nobody at sheep.berlios.de  Sat Jan 22 06:42:38 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Sat, 22 Jan 2005 06:42:38 +0100
+Subject: [Bmp-plugins-cvs] bmp-wma ChangeLog,1.3,1.4
+Message-ID: <200501220542.j0M5gcN29160@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-wma
+In directory sheep:/tmp/cvs-serv5130
+
+Modified Files:
+	ChangeLog 
+Log Message:
+rewrite the "about" dialog
+
+
+
+Index: ChangeLog
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/ChangeLog,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -u -d -r1.3 -r1.4
+--- ChangeLog	17 Jan 2005 13:22:41 -0000	1.3
++++ ChangeLog	22 Jan 2005 05:42:34 -0000	1.4
+@@ -1,3 +1,6 @@
++--- bmp-wma version 0.1.3 (not released yet)
++	- rewrite the "about" dialog
++
+ --- bmp-wma version 0.1.2
+ 	- Rise MAX_CODED_SUPERFRAME_SIZE for files with high bitrate (merged
+ 	from xmms-wma)
+
+
+

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/bmp-plugins-cvs/2005-January/index.html" >
+   <LINK REL="made" HREF="mailto:bmp-plugins-cvs%40lists.berlios.de?Subject=Re%3A%20%5BBmp-plugins-cvs%5D%20bmp-wma/src%20bmp-wma.c%2C1.2%2C1.3&In-Reply-To=%3C200501171322.j0HDMiE10131%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000008.html">
+   <LINK REL="Next"  HREF="000009.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.2,1.3</H1>
+    <B>bogorodskiy</B> 
+    <A HREF="mailto:bmp-plugins-cvs%40lists.berlios.de?Subject=Re%3A%20%5BBmp-plugins-cvs%5D%20bmp-wma/src%20bmp-wma.c%2C1.2%2C1.3&In-Reply-To=%3C200501171322.j0HDMiE10131%40bat.berlios.de%3E"
+       TITLE="[Bmp-plugins-cvs] bmp-wma/src bmp-wma.c,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Mon Jan 17 14:22:44 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000008.html">[Bmp-plugins-cvs] bmp-wma configure.in,1.1.1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000009.html">[Bmp-plugins-cvs] bmp-wma ChangeLog,1.2,1.3 NEWS,1.1.1.1,1.2 TODO,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/bmp-plugins/bmp-wma/src
+In directory sheep:/tmp/cvs-serv19266/src
+
+Modified Files:
+	bmp-wma.c 
+Log Message:
+Minor changes before 0.1.2 release.
+
+
+
+Index: bmp-wma.c
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-wma/src/bmp-wma.c,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -u -d -r1.2 -r1.3
+--- bmp-wma.c	1 Jan 2005 13:43:40 -0000	1.2
++++ bmp-wma.c	17 Jan 2005 13:22:42 -0000	1.3
+@@ -211,17 +211,15 @@
+ 
+     	wma_eq_on = q_on;
+     
+-	if(wma_eq_on)
+-    	{
++	if (wma_eq_on) {
+ 		q_preamp = q_preamp/1.6;
+-        	for(chn = 0; chn &lt; c-&gt;channels; chn++)
++        	for (chn = 0; chn &lt; c-&gt;channels; chn++)
+             		preamp[chn] = 1.0 + 0.0932471 * q_preamp + 0.00279033 * q_preamp * q_preamp;
+         
+-		for(index = 0; index &lt; 10; index++)
+-        	{
++		for (index = 0; index &lt; 10; index++) {
+             		value = q_bands[index]/1.2;
+             	
+-			for(chn = 0; chn &lt; c-&gt;channels; chn++)
++			for (chn = 0; chn &lt; c-&gt;channels; chn++)
+                 		gain[index][chn] = 0.03 * value + 0.000999999 * value * value;
+         	}
+     	}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000008.html">[Bmp-plugins-cvs] bmp-wma configure.in,1.1.1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000009.html">[Bmp-plugins-cvs] bmp-wma ChangeLog,1.2,1.3 NEWS,1.1.1.1,1.2 TODO,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/bmp-plugins-cvs">More information about the Bmp-plugins-cvs
+mailing list</a><br>
+</body></html>

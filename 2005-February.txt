@@ -1,0 +1,66 @@
+From nobody at sheep.berlios.de  Tue Feb  1 18:35:37 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Tue, 1 Feb 2005 18:35:37 +0100
+Subject: [Bmp-plugins-cvs] bmp-songchange ChangeLog,1.1.1.1,1.2
+Message-ID: <200502011735.j11HVdN03466@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-songchange
+In directory sheep:/tmp/cvs-serv19043
+
+Modified Files:
+	ChangeLog 
+Log Message:
+Mention the recent changes in ChangeLog.
+
+
+
+Index: ChangeLog
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-songchange/ChangeLog,v
+retrieving revision 1.1.1.1
+retrieving revision 1.2
+diff -u -d -r1.1.1.1 -r1.2
+--- ChangeLog	1 Feb 2005 17:24:22 -0000	1.1.1.1
++++ ChangeLog	1 Feb 2005 17:31:36 -0000	1.2
+@@ -1 +1,4 @@
+-
++01.02.2005 Roman Bogorodskit <bogorodskiy at gmail.com>
++	* feature: add the "?" button to configure dialog which
++		shows list of format codes
++	* feature: add the about dialog
+
+
+
+From nobody at sheep.berlios.de  Tue Feb  1 18:35:37 2005
+From: nobody at sheep.berlios.de (bogorodskiy)
+Date: Tue, 1 Feb 2005 18:35:37 +0100
+Subject: [Bmp-plugins-cvs] bmp-songchange ChangeLog,1.2,1.3
+Message-ID: <200502011735.j11HXaN03906@bat.berlios.de>
+
+Update of /cvsroot/bmp-plugins/bmp-songchange
+In directory sheep:/tmp/cvs-serv27078
+
+Modified Files:
+	ChangeLog 
+Log Message:
+formatting
+
+
+
+Index: ChangeLog
+===================================================================
+RCS file: /cvsroot/bmp-plugins/bmp-songchange/ChangeLog,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -u -d -r1.2 -r1.3
+--- ChangeLog	1 Feb 2005 17:31:36 -0000	1.2
++++ ChangeLog	1 Feb 2005 17:33:33 -0000	1.3
+@@ -1,4 +1,5 @@
+ 01.02.2005 Roman Bogorodskit <bogorodskiy at gmail.com>
++
+ 	* feature: add the "?" button to configure dialog which
+ 		shows list of format codes
+ 	* feature: add the about dialog
+
+
+
